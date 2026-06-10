@@ -1,0 +1,35 @@
+# Authentication
+
+OAS Telemetry supports **password-based authentication** using JWT tokens.
+
+To enable authentication, set the `auth.enabled` option to `true` in your configuration. It is **highly recommended** to also update the default password and JWT secret, using `auth.password` and `auth.jwtSecret` options.
+
+Max ages of Access and Refresh Tokens may also be configured using `auth.accessTokenMaxAge` and `auth.refreshTokenMaxAge` options.
+
+Authentication may also be configured using **environment variables**.
+
+Authentication is automatically handled in the dashboard. **For API access, refer to the [API documentation](/docs/api/auth).**
+
+### UserConfig Example
+```ts
+const userConfig = {
+  auth: {
+    enabled: true,
+    password: 'my-secret-password',
+    jwtSecret: 'my-secret-jwt-secret',
+    accessTokenMaxAge: 1000 * 60 * 5, // 5 minutes
+    refreshTokenMaxAge: 1000 * 60 * 60 * 24 * 7, // 7 days
+  },
+};
+
+app.use(oasTelemetry(userConfig))
+```
+
+### Environment Variables Example
+```properties
+OASTLM_CONFIG_AUTH_ENABLED=true
+OASTLM_CONFIG_AUTH_PASSWORD=my-secret-password
+OASTLM_CONFIG_AUTH_JWT_SECRET=my-secret-jwt-secret
+OASTLM_CONFIG_AUTH_ACCESS_TOKEN_MAX_AGE=300000
+OASTLM_CONFIG_AUTH_REFRESH_TOKEN_MAX_AGE=604800000
+```

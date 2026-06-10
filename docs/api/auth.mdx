@@ -1,0 +1,46 @@
+---
+sidebar_position: 0
+---
+
+# Authentication
+
+OAS Telemetry uses Access/Refresh JWT tokens for authentication.
+
+### Authentication Flow Diagram
+
+The diagram below showcases the authentication flow.
+
+![Authentication Flow](/img/auth-flow.webp)
+
+### GET /auth/enabled
+
+Returns whether authentication is enabled.
+
+Example response: `{ "enabled": true }`
+
+### POST /auth/login
+
+Tries to log in with given password, and sets Access/Refresh JWT tokens in cookies if the provided password is valid.
+
+Body: `{ "password": "your-password" }`
+
+Returns:
+- Correct Password: `{ "valid": true, "message": "Login successful" }`
+- Invalid Password: `{ "valid": false, "message": "Invalid password" }`
+
+
+### POST /auth/refresh
+
+Tries to refresh the Access token using the Refresh token in cookies.
+
+Returns:
+- Success: `{ "valid": true, "message": "Refreshed" }`
+- No refresh token: `{ "valid": false, "message": "No refresh token" }`
+- Expired token: `{ "valid": false, "message": "Invalid refresh token" }`
+
+
+### POST /auth/logout
+
+Logs out the user, clearing the Access/Refresh JWT tokens from cookies.
+
+Returns: `{ "valid": true, "message": "Logged out" }`

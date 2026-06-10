@@ -1,0 +1,45 @@
+# Getting Started
+
+**OAS Telemetry** offers an express middleware designed for collecting telemetry data using **Open Telemetry** in applications built using the **OpenAPI Specification (OAS)**. This middleware allows developers to easily incorporate telemetry functionality into their APIs.
+
+### Prerequisites
+
+To get started with **OAS Telemetry**, you need to have an **Express.js** application with the following prerequisites:
+
+- Node.js version 18 or higher
+
+### Installation
+
+You can install OAS Telemetry with your preferred npm-based package manager.
+
+- With npm: `npm install oas-telemetry`
+- With yarn: `yarn add oas-telemetry`
+- With pnpm: `pnpm add oas-telemetry`
+
+### Minimal setup
+
+You can start using OAS Telemetry by **adding its middleware** to your Express.js application. This package supports both ES Module (ESM) and CommonJS (CJS).
+
+#### ES Module (ESM)
+
+```ts
+import { oasTelemetry } from 'oas-telemetry';
+import express from 'express';
+
+const app = express();
+app.use(oasTelemetry());
+
+```
+
+#### CommonJS (CJS)
+```ts
+const { oasTelemetry } = require('oas-telemetry');
+const express = require('express');
+
+const app = express();
+app.use(oasTelemetry());
+```
+
+### Verification
+
+To verify that OAS Telemetry is working correctly, you can start your application and **navigate to the dashboard** at `http://localhost:<port>/oas-telemetry-ui`, or call the **health check endpoint** at `http://localhost:<port>/oas-telemetry/health` from your browser or a tool like Postman, or with `curl -X GET http://localhost:<port>/oas-telemetry/health`.

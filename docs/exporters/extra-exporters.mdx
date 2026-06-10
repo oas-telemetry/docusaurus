@@ -1,0 +1,43 @@
+---
+sidebar_position: 1
+---
+
+# Extra Exporters
+
+OAS Telemetry supports **adding custom exporters** via the `userConfig` parameter in the middleware constructor.
+
+**Note:** [In-memory exporter](/docs/exporters/in-memory-exporter) has an enable/disable feature that is exposed in the dashboard. That configuration does **NOT** affect the behavior of extra exporters.
+
+### Example usage
+
+Here is an example of how to use configure exporters:
+
+```ts
+const userConfig = {
+  traces: {
+    extraExporters: [new ConsoleSpanExporter()]
+  },
+  metrics: {
+    extraReaders: [new PrometheusExporter()]
+  },
+  logs: {
+    extraExporters: [new ConsoleLogRecordExporter()]
+  }
+}
+```
+
+### Prometheus Reader
+
+Here is an example of how to configure the library to expose an endpoint for Prometheus to scrape:
+
+```ts
+const prometheusExporter = new PrometheusExporter({
+  port: 9464 // Port where Prometheus has to scrape metrics
+})
+
+const userConfig = {
+  metrics: {
+    extraReaders: [prometheusExporter]
+  }
+}
+```

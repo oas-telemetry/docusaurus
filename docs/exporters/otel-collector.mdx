@@ -1,0 +1,50 @@
+---
+sidebar_position: 3
+---
+
+# OpenTelemetry Collector
+
+OAS Telemetry supports **OpenTelemetry Collector** as an extra exporter via the `userConfig` parameter in the middleware constructor. 
+
+**Full example implementation** with Docker Compose, OTEL Collector and Prometheus at [github.com/oas-telemetry/otel-collector-example](https://github.com/oas-telemetry/otel-collector-example)
+
+### Setup
+
+To set up the exporter, first you will need to add the required libraries as dependencies of your project with the following command:
+
+```bash
+npm install @opentelemetry/exporter-metrics-otlp-http @opentelemetry/exporter-trace-otlp-http @opentelemetry/sdk-metrics
+```
+
+After that, you will need to add the OTLP exporters to OAS Telemetry configuration by passing them as [extra exporters](/docs/exporters/extra-exporters). Each exporter needs the endpoint URL where the data will be sent. Here is an example:
+
+```ts
+import { oasTelemetry } from "@oas-tools/oas-telemetry";
+import express from "express";
+import { OTLPTraceExporter } from "@opentelemetry/exporter-trace-otlp-http";
+import { OTLPMetricExporter } from "@opentelemetry/exporter-metrics-otlp-http";
+import { PeriodicExportingMetricReader } from "@opentelemetry/sdk-metrics";
+
+const app = express();
+const traceExporter = new OTLPTraceExporter({
+  url: "http://otel-collector:4318/v1/traces", // The URL of the traces endpoint of your collector
+});
+
+const metricExporter = new OTLPMetricExporter({
+  url: "http://otel-collector:4318/v1/metrics", // The URL of the metrics endpoint of your collector
+});
+
+const metricReader = new PeriodicExportingMetricReader({
+  exporter: metricExporter,
+  exportIntervalMillis: 10000,
+});
+
+const telemetryConfig = {
+  traces: {
+    extraExporters: [traceExporter],
+  },
+  metrics: {
+    extraReaders: [metricReader],
+  },
+};
+```

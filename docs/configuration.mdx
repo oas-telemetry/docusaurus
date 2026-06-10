@@ -1,0 +1,204 @@
+# Configuration
+
+In this section, you will find **how to configure OAS Telemetry library**.
+
+### Priority
+
+OAS Telemetry uses the following **priority order** for configuration, **falling back to the next one if no value is provided for a given option.**
+
+1. Environment variables: Configure at runtime using environment variables
+2. Middleware constructor: An object passed to the middleware constructor, allowing for build time configuration
+3. Default values: Default values are used when no other configuration overrides them
+
+To provide a configuration object to the middleware constructor, you may use the following example:
+```ts
+const userConfig = {
+  // Your configuration
+};
+
+app.use(oasTelemetry(userConfig));
+```
+
+### Boot Environment Variables
+
+These are loaded at the import of the library and can **NOT** be configured via oasTelemetry(config)
+
+| Option | Description | Default |
+| --- | --- | --- |
+| `OASTLM_BOOT_ENV` | Determines the boot environment (e.g. `production`, `development`) | `production` |
+| `OASTLM_BOOT_MODULE_DISABLED` | Disables the library | `false` |
+| `OASTLM_BOOT_LOG_LEVEL` | Sets the log level of the library | `INFO` |
+| `OASTLM_BOOT_SERVICE_NAME` | Sets the service name of the library | `UNKNOWN` |
+| `OASTLM_BOOT_BASE_URL` | Sets the base URL of the library | `/oas-telemetry` |
+| `OASTLM_BOOT_AUTOINSTRUMENTATIONS_NODE_DISABLED` | Disables Node.js autoinstrumentations | `false` |
+| `OASTLM_BOOT_AUTOINSTRUMENTATIONS_LOGS_DISABLED` | Disables logs autoinstrumentations | `false` |
+
+
+### General Settings (general.*)
+
+These settings provide basic configuration, such as the **OpenAPI specification** or the **base URL of the web dashboard**.
+
+| Option | Description | Environment Variable | Default |
+| --- | --- | --- | --- |
+| `specFileName` | File to read the OpenAPI specification from. | `OASTLM_CONFIG_GENERAL_SPEC_FILE_NAME` | `null` |
+| `spec` | The OpenAPI specification as a JSON object. | Not available | `null` |
+| `uiPath` | The base path for the web dashboard UI. | Not available | `/oas-telemetry-ui` |
+
+**Note:** `specFileName` and `spec` are mutually exclusive. If both are provided, `specFileName` takes precedence. If none is provided, fetching the specification will return 404 Not Found.
+
+#### Example
+```ts
+const userConfig = {
+  general: {
+    specFileName: 'oas.json',
+    uiPath: '/oas-telemetry-ui',
+  },
+};
+```
+
+### Authentication (auth.*)
+
+These settings provide authentication configuration for the library. **By default, authentication is disabled.**
+
+When enabling it, it is highly recommended to provide a password and JWT secret to override default ones.
+
+| Option | Description | Environment Variable | Default |
+| --- | --- | --- | --- |
+| `enabled` | Enables authentication. | `OASTLM_CONFIG_AUTH_ENABLED` | `false` |
+| `password` | The password for authentication. | `OASTLM_CONFIG_AUTH_PASSWORD` | `oas-telemetry-password` |
+| `jwtSecret` | The JWT secret for authentication. | `OASTLM_CONFIG_AUTH_JWT_SECRET` | `oas-telemetry-secret` |
+| `accessTokenMaxAge` | The maximum age of the access token in seconds. | `OASTLM_CONFIG_AUTH_ACCESS_TOKEN_MAX_AGE` | `1000 * 60 * 5` (5 minutes) |
+| `refreshTokenMaxAge` | The maximum age of the refresh token in seconds. | `OASTLM_CONFIG_AUTH_REFRESH_TOKEN_MAX_AGE` | `1000 * 60 * 60 * 24 * 7` (7 days) |
+
+#### Example
+```ts
+const userConfig = {
+  auth: {
+    enabled: true,
+    password: 'my-strong-password',
+    jwtSecret: 'my-jwt-secret',
+    accessTokenMaxAge: 1000 * 60 * 5,
+    refreshTokenMaxAge: 1000 * 60 * 60 * 24 * 7,
+  },
+};
+```
+
+### AI (ai.*)
+
+These settings provide configuration for the AI model used by the AI Chat in the library.
+
+| Option | Description | Environment Variable | Default |
+| --- | --- | --- | --- |
+| `openAIKey` | The OpenAI API key. | `OASTLM_CONFIG_AI_OPENAI_KEY` | `null` |
+| `openAIModel` | The OpenAI model to use. | `OASTLM_CONFIG_AI_OPENAI_MODEL` | `gpt-3.5-turbo` |
+| `extraContextPrompts` | Extra context prompts that are passed as system messages to the AI model. | `OASTLM_CONFIG_AI_EXTRA_CONTEXT_PROMPTS` | `[]` |
+
+#### Example
+```ts
+const userConfig = {
+  ai: {
+    openAIKey: 'my-openai-key',
+    openAIModel: 'gpt-4',
+    extraContextPrompts: ['Provide detailed explanations', 'Use simple language'],
+  },
+};
+```
+
+### Traces (traces.*)
+
+These settings provide configuration for trace telemetry in the library.
+
+| Option | Description | Environment Variable | Default |
+| --- | --- | --- | --- |
+| `extraExporters` | Additional custom trace exporters. See [Extra Exporters](/docs/exporters/extra-exporters) | Not available | `[]` |
+| `extraProcessors` | Additional custom trace processors. | Not available | `[]` |
+| `mainProcessorOptions.config` | Configuration options for the main span processor. | Not available | `undefined` |
+| `memoryExporter.enabled` | Enables the in-memory exporter for traces. | `OASTLM_CONFIG_TRACES_MEMORY_EXPORTER_ENABLED` | `true` |
+| `memoryExporter.retentionTimeSeconds` | The retention period in seconds for traces in memory. | `OASTLM_CONFIG_TRACES_MEMORY_EXPORTER_RETENTION_TIME_SECONDS` | `3600` (1 hour) |
+| `filters` | Filters for trace telemetry (currently not used). | Not available | `[]` |
+
+#### Example
+```ts
+const userConfig = {
+  traces: {
+    memoryExporter: {
+      enabled: true,
+      retentionTimeSeconds: 60 * 60,
+    },
+    extraExporters: [new ConsoleSpanExporter()],
+  },
+};
+```
+
+### Metrics (metrics.*)
+
+These settings provide configuration for metric telemetry in the library.
+
+| Option | Description | Environment Variable | Default |
+| --- | --- | --- | --- |
+| `mainMetricReaderOptions.exportIntervalMillis` | The export interval in milliseconds for the main metric reader. | `OASTLM_CONFIG_METRICS_MAIN_READER_EXPORT_INTERVAL` | `60000` (60 seconds) |
+| `extraReaders` | Additional custom metric readers. See [Extra Exporters](/docs/exporters/extra-exporters) | Not available | `[]` |
+| `extraViews` | Additional custom metric views. | Not available | `[]` |
+| `memoryExporter.enabled` | Enables the in-memory exporter for metrics. | `OASTLM_CONFIG_METRICS_MEMORY_EXPORTER_ENABLED` | `true` |
+| `memoryExporter.retentionTimeSeconds` | The retention period in seconds for metrics in memory. | `OASTLM_CONFIG_METRICS_MEMORY_EXPORTER_RETENTION_TIME_SECONDS` | `3600` (1 hour) |
+| `filters` | Filters for metric telemetry (currently not used). | Not available | `[]` |
+
+#### Example
+```ts
+const userConfig = {
+  metrics: {
+    mainMetricReaderOptions: {
+      exportIntervalMillis: 1000 * 60,
+    },
+    memoryExporter: {
+      enabled: true,
+      retentionTimeSeconds: 60 * 60,
+    },
+    extraReaders: [prometheusExporter],
+  },
+};
+```
+
+### Logs (logs.*)
+
+These settings provide configuration for log telemetry in the library.
+
+| Option | Description | Environment Variable | Default |
+| --- | --- | --- | --- |
+| `extraExporters` | Additional custom log exporters. See [Extra Exporters](/docs/exporters/extra-exporters) | Not available | `[]` |
+| `extraProcessors` | Additional custom log processors. | Not available | `[]` |
+| `memoryExporter.enabled` | Enables the in-memory exporter for logs. | `OASTLM_CONFIG_LOGS_MEMORY_EXPORTER_ENABLED` | `true` |
+| `memoryExporter.retentionTimeSeconds` | The retention period in seconds for logs in memory. | `OASTLM_CONFIG_LOGS_MEMORY_EXPORTER_RETENTION_TIME_SECONDS` | `3600` (1 hour) |
+| `filters` | Filters for log telemetry (currently not used). | Not available | `[]` |
+
+#### Example
+```ts
+const userConfig = {
+  logs: {
+    memoryExporter: {
+      enabled: true,
+      retentionTimeSeconds: 60 * 60,
+    },
+    extraExporters: [new ConsoleLogRecordExporter()],
+  },
+};
+```
+
+### Plugins (plugins.*)
+
+These settings provide configuration for plugins in the library.
+
+| Option | Description | Environment Variable | Default |
+| --- | --- | --- | --- |
+| `enabled` | Enables plugins support. | Not available | `true` |
+| `extraPlugins` | Additional custom plugins. See [Getting Started](/docs/plugins/getting-started) | Not available | `[]` |
+
+#### Example
+```ts
+const userConfig = {
+  plugins: {
+    enabled: true,
+    extraPlugins: [],
+  },
+};
+```

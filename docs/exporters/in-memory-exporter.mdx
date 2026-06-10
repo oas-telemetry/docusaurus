@@ -1,0 +1,36 @@
+---
+sidebar_position: 1
+---
+
+# In-Memory Exporter
+
+OAS Telemetry implements an in-memory exporter that collects telemetry data in memory and exposes it via HTTP endpoints, which can be scraped by the library's web dashboard.
+
+There is a specific exporter for each telemetry data type. They can be toggled on or off individually, and the retention period can be configured for each.
+
+These exporters are enabled by default.
+
+### Example configuration
+
+```ts
+const userConfig = {
+  traces: {
+    memoryExporter: {
+      enabled: true,
+      retentionTimeSeconds: 60 * 60, // 1 hour
+    }
+  },
+  metrics: {
+    memoryExporter: {
+      enabled: true,
+      retentionTimeSeconds: 60 * 60, // 1 hour
+    }
+  },
+  logs: {
+    memoryExporter: {
+      enabled: true,
+      retentionTimeSeconds: 60 * 60, // 1 hour
+    }
+  },
+}
+```
