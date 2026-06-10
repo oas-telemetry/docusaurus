@@ -4,4 +4,50 @@ sidebar_position: 999
 
 # Utils
 
-WIP
+Utils endpoint provide some useful utility functions, such as OpenAPI specs or heap data.
+
+### GET /utils/spec
+
+Returns the OpenAPI spec provided as a [configuration of the library](/docs/configuration).
+
+**Note:** If both `specFileName` and `spec` are provided, `specFileName` takes precedence. If none is provided, fetching the specification will return 404 Not Found.
+
+### GET /utils/oas-telemetry-spec
+
+Returns the OpenAPI spec for the OAS Telemetry API.
+
+### GET /utils/heapStats
+
+Returns the heap statistics of the application provided by Node.js' [`v8.getHeapStatistics()`](https://nodejs.org/api/v8.html#v8getheapstatistics), in megabytes (MB), and rounded to 3 decimal places.
+
+### POST /utils/generate-log
+
+Generates as many log entries as specified in the request body, with specified method (log level) and a delay of 50ms in between them.
+
+**Example Body:**
+```json
+{
+  "log": "Log message",
+  "repeat": 5,
+  "method": "info"
+}
+```
+
+### POST /utils/generate-mock-logs
+
+Generates as many realistic mock logs as specified in the request body.
+
+**Example Body:**
+```json
+{
+  "count": 50
+}
+```
+
+### GET /utils/generate-wait?seconds=
+
+Waits for a specified number of seconds before returning a response.
+
+**Example:** `GET /utils/generate-wait?seconds=5`
+
+**Example Response:** `{ "waited": 5 }`
