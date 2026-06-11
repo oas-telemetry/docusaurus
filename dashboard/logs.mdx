@@ -1,0 +1,39 @@
+---
+sidebar_position: 4
+---
+
+# Logs
+
+The **Logs Page** provides a centralized view of application events and logs.
+
+## Logs Collection Control
+
+This panel manages the state of the logs in-memory database:
+- **Enable/Disable**: Toggle log collection.
+- **Retention Time (Seconds)**: Set the TTL for log records in memory.
+- **Reset**: Clear all logs from the database.
+- **Import/Export**: Import or export logs in JSON format.
+
+**Note:** These affect only [in-memory exporter](/docs/exporters/in-memory-exporter)
+
+![Logs Collection Control](/img/dashboard/logs-collection-panel.png)
+
+### Filters
+
+You can filter logs using basic fields or advanced queries:
+
+### Normal Filters
+- **Service**: Filter logs by the service that generated them.
+- **Severity**: Filter by log level (e.g. `DEBUG`, `INFO`, `WARN`, `ERROR`).
+- **Trace ID**: Find logs associated with a specific trace.
+
+![Normal Filters](/img/dashboard/logs-filter.png)
+ 
+### Advanced Query
+For deep querying, the search supports custom JSON queries
+
+## Log List
+
+Below the filters, the log list displays captured log entries with real-time updates.
+
+![Logs History](/img/dashboard/logs-history.png)

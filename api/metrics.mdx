@@ -1,0 +1,129 @@
+---
+sidebar_position: 6
+---
+
+# Metrics
+
+Operations for managing telemetry metrics.
+
+## In-Memory Exporter
+
+The following endpoints apply only to the [in-memory exporter](/docs/exporters/in-memory-exporter).
+
+### GET /metrics/exporters/in-memory-exporter/data
+
+Returns collected metrics from the [in-memory exporter](/docs/exporters/in-memory-exporter).
+
+Example response:
+```json
+{
+  "metricsCount": 0,
+  "metrics": []
+}
+```
+
+### POST /metrics/exporters/in-memory-exporter/data
+
+Inserts metrics into the [in-memory exporter](/docs/exporters/in-memory-exporter). If the query parameter `reset=true` is provided, the in-memory database is reset before inserting.
+
+Returns:
+```json
+{
+  "message": "Inserted 25 metrics.",
+  "InsertedMetricsCount": 25
+}
+```
+
+### DELETE /metrics/exporters/in-memory-exporter/data
+
+Resets metrics in the [in-memory exporter](/docs/exporters/in-memory-exporter).
+
+Returns: `Metrics reset`
+
+### POST /metrics/exporters/in-memory-exporter/data/find
+
+Finds metrics from the [in-memory exporter](/docs/exporters/in-memory-exporter) database using Mongo-like (nedb) query object in the request body.
+
+Body:
+```json
+{
+  "query": {
+    "metricId": "123"
+  }
+}
+```
+
+Returns:
+```json
+{
+  "metricsCount": 0,
+  "metrics": []
+}
+```
+
+### POST /metrics/exporters/in-memory-exporter/start
+
+Starts metrics collection. Only applies to the [in-memory exporter](/docs/exporters/in-memory-exporter).
+
+Returns: `Metrics collection started`
+
+### POST /metrics/exporters/in-memory-exporter/stop
+
+Stops metrics collection. Only applies to the [in-memory exporter](/docs/exporters/in-memory-exporter).
+
+Returns: `Metrics collection stopped`
+
+### GET /metrics/exporters/in-memory-exporter/status
+
+Returns whether metrics collection is active for the [in-memory exporter](/docs/exporters/in-memory-exporter).
+
+Example response: `{ "active": true }`
+
+### POST /metrics/exporters/in-memory-exporter/reset
+
+Resets metrics in [in-memory exporter](/docs/exporters/in-memory-exporter)'s database.
+
+Returns: `Metrics reset`
+
+### GET /metrics/exporters/in-memory-exporter/retention-time
+
+Returns the retention time in seconds for metrics. Applies to the [in-memory exporter](/docs/exporters/in-memory-exporter).
+
+Example response: `{ "retentionTimeInSeconds": 3600 }`
+
+### POST /metrics/exporters/in-memory-exporter/retention-time
+
+Sets retention time in seconds for metrics. Only applies to the [in-memory exporter](/docs/exporters/in-memory-exporter).
+
+Body: `{ "retentionTimeInSeconds": 3600 }`
+
+Returns: `{ "message": "Retention time set to 3600 seconds." }`
+
+### GET /metrics/exporters/in-memory-exporter/export
+
+Exports all collected metrics from the [in-memory exporter](/docs/exporters/in-memory-exporter) in JSON format.
+
+Returns: A string containing metrics in JSON format.
+
+### POST /metrics/exporters/in-memory-exporter/import
+
+Imports metrics from JSON format to the [in-memory exporter](/docs/exporters/in-memory-exporter).
+
+Body: A string containing metrics in JSON format.
+
+Returns: `{ "message": "Metrics imported successfully" }`
+
+### GET /metrics/stats
+
+Returns statistics about collected metrics.
+
+Example response:
+```json
+{
+    totalMetrics: 35,
+    totalScopes: 8,
+    totalSeries: 35,
+    totalSamples: 3500,
+    memoryUsageBytes: 123456
+}
+```

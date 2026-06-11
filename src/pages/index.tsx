@@ -3,7 +3,6 @@ import clsx from "clsx";
 import Link from "@docusaurus/Link";
 import useDocusaurusContext from "@docusaurus/useDocusaurusContext";
 import Layout from "@theme/Layout";
-import HomepageFeatures from "@site/src/components/HomepageFeatures";
 import Heading from "@theme/Heading";
 
 import styles from "./index.module.css";
@@ -38,7 +37,50 @@ export default function Home(): ReactNode {
       description="Description will go into a meta tag in <head />"
     >
       <HomepageHeader />
-      <main></main>
+      <main>
+        <section className={styles.featuresSection}>
+          <div className={styles.grid}>
+            <Link to="/docs/configuration" className={styles.card}>
+              <div>
+                <Heading as="h3" className={styles.cardTitle}>
+                  Configuration
+                </Heading>
+                <p className={styles.cardDescription}>
+                  Learn how to configure library options to customize your
+                  telemetry setup.
+                </p>
+              </div>
+              <span className={styles.cardLink}>Configure telemetry</span>
+            </Link>
+
+            <Link to="/docs/plugins/getting-started" className={styles.card}>
+              <div>
+                <Heading as="h3" className={styles.cardTitle}>
+                  Get Started with Plugins
+                </Heading>
+                <p className={styles.cardDescription}>
+                  Extend the library's functionality by installing and
+                  configuring plugins.
+                </p>
+              </div>
+              <span className={styles.cardLink}>Explore plugins</span>
+            </Link>
+
+            <Link to="/docs/exporters/extra-exporters" className={styles.card}>
+              <div>
+                <Heading as="h3" className={styles.cardTitle}>
+                  Extra Exporters
+                </Heading>
+                <p className={styles.cardDescription}>
+                  Configure Prometheus, OTEL Collector or any other extra
+                  exporters.
+                </p>
+              </div>
+              <span className={styles.cardLink}>Set up exporters</span>
+            </Link>
+          </div>
+        </section>
+      </main>
     </Layout>
   );
 }

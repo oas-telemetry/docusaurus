@@ -2,6 +2,24 @@
 
 In this section, you will find **how to configure OAS Telemetry library**.
 
+## Boot Environment Variables
+
+These are loaded at the import of the library and can **NOT** be configured via oasTelemetry(config)
+
+| Option | Description | Default |
+| --- | --- | --- |
+| `OASTLM_BOOT_ENV` | Determines the boot environment (e.g. `production`, `development`) | `production` |
+| `OASTLM_BOOT_MODULE_DISABLED` | Disables the library | `false` |
+| `OASTLM_BOOT_LOG_LEVEL` | Sets the log level of the library | `INFO` |
+| `OASTLM_BOOT_SERVICE_NAME` | Sets the service name of the library | `UNKNOWN` |
+| `OASTLM_BOOT_BASE_URL` | Sets the base URL of the library | `/oas-telemetry` |
+| `OASTLM_BOOT_AUTOINSTRUMENTATIONS_NODE_DISABLED` | Disables Node.js autoinstrumentations | `false` |
+| `OASTLM_BOOT_AUTOINSTRUMENTATIONS_LOGS_DISABLED` | Disables logs autoinstrumentations | `false` |
+
+## Settings
+
+These settings provide the rest of configurations, which can be applied both via middleware constructor and environment variables (for settings that support it)
+
 ### Priority
 
 OAS Telemetry uses the following **priority order** for configuration, **falling back to the next one if no value is provided for a given option.**
@@ -18,21 +36,6 @@ const userConfig = {
 
 app.use(oasTelemetry(userConfig));
 ```
-
-### Boot Environment Variables
-
-These are loaded at the import of the library and can **NOT** be configured via oasTelemetry(config)
-
-| Option | Description | Default |
-| --- | --- | --- |
-| `OASTLM_BOOT_ENV` | Determines the boot environment (e.g. `production`, `development`) | `production` |
-| `OASTLM_BOOT_MODULE_DISABLED` | Disables the library | `false` |
-| `OASTLM_BOOT_LOG_LEVEL` | Sets the log level of the library | `INFO` |
-| `OASTLM_BOOT_SERVICE_NAME` | Sets the service name of the library | `UNKNOWN` |
-| `OASTLM_BOOT_BASE_URL` | Sets the base URL of the library | `/oas-telemetry` |
-| `OASTLM_BOOT_AUTOINSTRUMENTATIONS_NODE_DISABLED` | Disables Node.js autoinstrumentations | `false` |
-| `OASTLM_BOOT_AUTOINSTRUMENTATIONS_LOGS_DISABLED` | Disables logs autoinstrumentations | `false` |
-
 
 ### General Settings (general.*)
 

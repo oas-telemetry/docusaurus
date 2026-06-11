@@ -50,6 +50,27 @@ const config: Config = {
     ],
   ],
 
+  plugins: [
+    [
+      "@docusaurus/plugin-content-docs",
+      {
+        id: "api",
+        path: "api",
+        routeBasePath: "api",
+        sidebarPath: "./sidebarsApi.ts",
+      },
+    ],
+    [
+      "@docusaurus/plugin-content-docs",
+      {
+        id: "dashboard",
+        path: "dashboard",
+        routeBasePath: "dashboard",
+        sidebarPath: "./sidebarsDashboard.ts",
+      },
+    ],
+  ],
+
   themeConfig: {
     image: "img/docusaurus-social-card.jpg",
     colorMode: {
@@ -69,6 +90,20 @@ const config: Config = {
           label: "Docs",
         },
         {
+          type: "docSidebar",
+          docsPluginId: "dashboard",
+          sidebarId: "dashboardSidebar",
+          position: "left",
+          label: "Dashboard",
+        },
+        {
+          type: "docSidebar",
+          docsPluginId: "api",
+          sidebarId: "apiSidebar",
+          position: "left",
+          label: "API Reference",
+        },
+        {
           href: "https://github.com/oas-telemetry",
           label: "GitHub",
           position: "right",
@@ -79,11 +114,86 @@ const config: Config = {
       style: "dark",
       links: [
         {
-          title: "Docs",
+          title: "The Basics",
           items: [
             {
               label: "Getting Started",
               to: "/docs/getting-started",
+            },
+            {
+              label: "Configuration",
+              to: "/docs/configuration",
+            },
+            {
+              label: "Authentication",
+              to: "/docs/authentication",
+            },
+            {
+              label: "GitHub Organization",
+              href: "https://github.com/oas-telemetry",
+            },
+          ],
+        },
+        {
+          title: "API Reference",
+          items: [
+            {
+              label: "Authentication",
+              to: "/api/auth",
+            },
+            {
+              label: "Traces",
+              to: "/api/traces",
+            },
+            {
+              label: "Metrics",
+              to: "/api/metrics",
+            },
+            {
+              label: "Logs",
+              to: "/api/logs",
+            },
+          ],
+        },
+        {
+          title: "Dashboard",
+          items: [
+            {
+              label: "Home",
+              to: "/dashboard/home",
+            },
+            {
+              label: "Traces",
+              to: "/dashboard/traces",
+            },
+            {
+              label: "Metrics",
+              to: "/dashboard/metrics",
+            },
+            {
+              label: "Logs",
+              to: "/dashboard/logs",
+            },
+          ],
+        },
+        {
+          title: "Plugins",
+          items: [
+            {
+              label: "Getting Started",
+              to: "/docs/plugins/getting-started",
+            },
+            {
+              label: "The Plugin Object",
+              to: "/docs/plugins/plugin-object",
+            },
+            {
+              label: "Configuration",
+              to: "/docs/plugins/plugin-configuration",
+            },
+            {
+              label: "Dependencies",
+              to: "/docs/plugins/external-dependencies",
             },
           ],
         },

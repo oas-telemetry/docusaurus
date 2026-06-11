@@ -2,13 +2,13 @@
 
 **OAS Telemetry** offers an express middleware designed for collecting telemetry data using **Open Telemetry** in applications built using the **OpenAPI Specification (OAS)**. This middleware allows developers to easily incorporate telemetry functionality into their APIs.
 
-### Prerequisites
+## Prerequisites
 
 To get started with **OAS Telemetry**, you need to have an **Express.js** application with the following prerequisites:
 
 - Node.js version 18 or higher
 
-### Installation
+## Installation
 
 You can install OAS Telemetry with your preferred npm-based package manager.
 
@@ -16,11 +16,11 @@ You can install OAS Telemetry with your preferred npm-based package manager.
 - With yarn: `yarn add oas-telemetry`
 - With pnpm: `pnpm add oas-telemetry`
 
-### Minimal setup
+## Quick Start
 
 You can start using OAS Telemetry by **adding its middleware** to your Express.js application. This package supports both ES Module (ESM) and CommonJS (CJS).
 
-#### ES Module (ESM)
+### ES Module (ESM)
 
 ```ts
 import { oasTelemetry } from 'oas-telemetry';
@@ -31,7 +31,7 @@ app.use(oasTelemetry());
 
 ```
 
-#### CommonJS (CJS)
+### CommonJS (CJS)
 ```ts
 const { oasTelemetry } = require('oas-telemetry');
 const express = require('express');
@@ -40,6 +40,13 @@ const app = express();
 app.use(oasTelemetry());
 ```
 
-### Verification
+## Important Notes
+
+- OAS Telemetry library does monkey patching to instrument Node.js' HTTP server and client. This means that **the import must be done before any other imports** in your application. Otherwise, unexpected behavior may occur.
+- OAS Telemetry works using a middleware approach. This middleware should be added **before any other middleware or routes** to your Express.js application.
+
+## Verification
 
 To verify that OAS Telemetry is working correctly, you can start your application and **navigate to the dashboard** at `http://localhost:<port>/oas-telemetry-ui`, or call the **health check endpoint** at `http://localhost:<port>/oas-telemetry/health` from your browser or a tool like Postman, or with `curl -X GET http://localhost:<port>/oas-telemetry/health`.
+
+You can continue to the [configuration guide](/docs/configuration) to learn how to customize OAS Telemetry's behavior.

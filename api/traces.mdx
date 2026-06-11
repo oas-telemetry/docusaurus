@@ -1,0 +1,141 @@
+---
+sidebar_position: 2
+---
+
+# Traces
+
+Operations for managing telemetry trace collection.
+
+## In-Memory Exporter
+
+The following endpoints apply only to the [in-memory exporter](/docs/exporters/in-memory-exporter).
+
+### GET /spans/exporters/in-memory-exporter/data
+
+Returns collected spans from the [in-memory exporter](/docs/exporters/in-memory-exporter).
+
+Example response:
+```json
+{
+  "spansCount": 0,
+  "spans": []
+}
+```
+
+### POST /spans/exporters/in-memory-exporter/data
+
+Inserts spans into the [in-memory exporter](/docs/exporters/in-memory-exporter). If the query parameter `reset=true` is provided, the in-memory database is reset before inserting.
+
+Body:
+```json
+{
+  "spans": [
+    {
+      "traceId": "123",
+      "spanId": "456"
+    }
+  ]
+}
+```
+
+Returns:
+```json
+{
+  "message": "Inserted 1 spans.",
+  "InsertedTracesCount": 1
+}
+```
+
+### DELETE /spans/exporters/in-memory-exporter/data
+
+Resets spans in the [in-memory exporter](/docs/exporters/in-memory-exporter).
+
+Returns: `Traces reset`
+
+### POST /spans/exporters/in-memory-exporter/data/find
+
+Finds spans from the [in-memory exporter](/docs/exporters/in-memory-exporter) database using a query criteria in the request body.
+
+Body:
+```json
+{
+  "query": {
+    "attributes.http.target": {
+      "$regex": "^/api/v1/pets.*$"
+    },
+    "attributes.http.method": "GET"
+  }
+}
+```
+
+Returns:
+```json
+{
+  "spansCount": 0,
+  "spans": []
+}
+```
+
+### POST /spans/exporters/in-memory-exporter/start
+
+Starts spans collection. Only applies to the [in-memory exporter](/docs/exporters/in-memory-exporter).
+
+Returns: `Traces started`
+
+### POST /spans/exporters/in-memory-exporter/stop
+
+Stops spans collection. Only applies to the [in-memory exporter](/docs/exporters/in-memory-exporter).
+
+Returns: `Traces stopped`
+
+### GET /spans/exporters/in-memory-exporter/status
+
+Returns whether spans collection is active for the [in-memory exporter](/docs/exporters/in-memory-exporter).
+
+Example response: `{ "active": true }`
+
+### POST /spans/exporters/in-memory-exporter/reset
+
+Resets spans in [in-memory exporter](/docs/exporters/in-memory-exporter)'s database.
+
+Returns: `Traces reset`
+
+### GET /spans/exporters/in-memory-exporter/retention-time
+
+Returns the retention time in seconds for spans. Applies to the [in-memory exporter](/docs/exporters/in-memory-exporter).
+
+Example response: `{ "retentionTimeInSeconds": 3600 }`
+
+### POST /spans/exporters/in-memory-exporter/retention-time
+
+Sets retention time in seconds for spans. Only applies to the [in-memory exporter](/docs/exporters/in-memory-exporter).
+
+Body: `{ "retentionTimeInSeconds": 3600 }`
+
+Returns: `{ "message": "Retention time set to 3600 seconds." }`
+
+### GET /spans/exporters/in-memory-exporter/export
+
+Exports all collected spans from the [in-memory exporter](/docs/exporters/in-memory-exporter) in JSON format.
+
+Returns: A string containing spans in JSON format.
+
+### POST /spans/exporters/in-memory-exporter/import
+
+Imports spans from JSON format to the [in-memory exporter](/docs/exporters/in-memory-exporter). Compatible with previous endpoint's export format.
+
+Body: A string containing spans in JSON format.
+
+Returns: `{ "message": "Spans imported successfully" }`
+
+### GET /traces/\{traceId\}
+
+Returns spans filtered by a specific trace ID. As of now, only spans from current microservice are returned. In the future, this endpoint is planned to search spans associated to the trace ID across related microservices.
+
+Example response:
+```json
+{
+  "spansCount": 0,
+  "spans": []
+}
+```

@@ -1,0 +1,68 @@
+---
+sidebar_position: 11
+---
+
+# Plugins
+
+Operations for managing OAS Telemetry plugins. To understand how plugins work, refer to the [plugins documentation](/docs/plugins/getting-started).
+
+### GET /plugins
+
+Lists all registered plugins.
+
+Example response:
+```json
+{
+  "pluginsCount": 1,
+  "plugins": [
+    {
+      "id": "plugin-1",
+      "name": "Sample Plugin",
+      "url": "https://example.com/plugin.js",
+      "active": true
+    }
+  ]
+}
+```
+
+### POST /plugins
+
+Registers a new plugin.
+
+Body:
+```json
+{
+  "id": "plugin-1",
+  "name": "Sample Plugin",
+  "description": "A sample plugin for demonstration",
+  "code": "console.log('Hello from plugin');export const plugin = {load:()=>{console.log('Plugin loaded')}, isConfigured:()=>true};",
+  "install": {
+    "dependencies": [],
+    "ignoreErrors": true
+  },
+  "config": {
+    "key": "value"
+  },
+  "moduleFormat": "ESM"
+}
+```
+
+Returns: `201 Created` on success.
+
+### POST /plugins/\{id\}/activate
+
+Activates a plugin.
+
+Returns: `Plugin "plugin-1" activated.`
+
+### POST /plugins/\{id\}/deactivate
+
+Deactivates a plugin.
+
+Returns: `Plugin "plugin-1" deactivated.`
+
+### DELETE /plugins/\{id\}
+
+Deactivates and deletes a plugin.
+
+Returns: `Plugin "plugin-1" deleted.`

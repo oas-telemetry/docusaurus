@@ -1,0 +1,49 @@
+---
+sidebar_position: 2
+---
+
+# Traces
+
+The **Traces Page** allows you to monitor request and execution flows across your system. It displays trace information captured by the in-memory span exporter.
+
+## Trace Collection Control
+
+This panel controls the trace collection in the in-memory database:
+- **Enable/Disable**: Toggle trace collection .
+- **Retention Time (Seconds)**: Set the TTL for spans in memory. Spans older than this threshold are automatically purged.
+- **Reset**: Clear all spans from the database.
+- **Import/Export**: Save the current spans in JSON format, or upload a previously exported file to restore history.
+
+**Note:** These affect only [in-memory exporter](/docs/exporters/in-memory-exporter)
+
+![Trace Collection Control](/img/dashboard/traces-collection-control.png)
+
+## Filters
+
+The dashboard supports two search modes to filter spans:
+
+### Normal Filters
+- **Endpoint / Target**: Filter by HTTP target path (e.g. `/api/users`).
+- **Trace ID**: Find all spans belonging to a specific trace.
+- **HTTP Method**: Filter by HTTP verb (e.g. `GET`, `POST`).
+- **Status Codes**: Filter by HTTP response status codes.
+
+![Normal Filters](/img/dashboard/traces-filter.png)
+
+### Advanced Query
+For complex requirements, you can write queries using standard MongoDB/NeDB query syntax. The search accepts a JSON object passed to the backend for filtering, like the example below.
+
+```json
+{
+  "attributes.http.method": "GET",
+  "attributes.http.status_code": {
+    "$gte": 400
+  }
+}
+``` 
+
+## Span History
+
+Below the filters, the span history displays captured spans in reverse-chronological order.
+
+![Span History](/img/dashboard/traces-history.png)

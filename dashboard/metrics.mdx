@@ -1,0 +1,33 @@
+---
+sidebar_position: 3
+---
+
+# Metrics
+
+The **Metrics Page** provides real-time visualization of system and application metrics.
+
+## Metrics Collection Control
+
+This panel controls the metrics collection in the in-memory database:
+- **Enable/Pause**: Pause or resume recording new metric samples.
+- **Retention Time (Seconds)**: Set the TTL for metric samples before eviction.
+- **Reset**: Clear all stored metric series and samples.
+- **Import/Export**: Load or export metric records in a line-delimited JSON format.
+
+**Note:** These affect only [in-memory exporter](/docs/exporters/in-memory-exporter)
+
+![Metrics Collection Control](/img/dashboard/metrics-collection-panel.png)
+
+## Time Range Selection
+
+You can filter metric data by selecting a time window:
+- **Last XX Mode**: Sliding last 1m, 5m, 15m, 30m, etc. This mode supports auto refresh with various timeframes.
+- **Custom Range Mode**: Specify a fixed start and end time window. You may also enter this mode by selecting a time range in the chart.
+
+![Time Range Selection](/img/dashboard/metrics-modes.png)
+
+## Metric Graphs
+
+Below the settings and timeframe selection, interactive charts display the values of each metric over the selected timeframe.
+
+![Metric Graphs](/img/dashboard/metrics-graph.png)

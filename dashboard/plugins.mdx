@@ -1,0 +1,42 @@
+---
+sidebar_position: 5
+---
+
+# Plugins
+
+The **Plugins Page** allows you to manage dynamic plugins that extend the telemetry functionality.
+
+## Plugins Management Panel
+
+This panel provides controls to add or import/export plugins:
+- **Add Plugin**: Opens the add plugin page to register a new plugin.
+- **Import**: Import a list of plugins from a JSON file.
+- **Export**: Export all current plugins in a JSON format compatible for import.
+
+![Plugins Management Panel](/img/dashboard/plugin-management-panel.png) 
+ 
+## Plugins List 
+
+Below the management panel, the plugins card lists all registered plugins and allows you to:
+- **Activate/Deactivate**: Toggle individual plugins on or off.
+- **Download**: Save a specific plugin configuration and code to a JSON file.
+- **Delete**: Remove the plugin from the system.
+- **Edit**: Edit the plugin. This deletes it immediately from the active registry and loads the Add Plugin page with its details pre-populated.
+- **Expand details (View Mode)**: Expand the plugin card to inspect its source code, dependencies, and configuration in a read-only viewer.
+
+![Plugins List](/img/dashboard/plugins-list.png) 
+
+## Add Plugin Page
+
+Creating or updating a plugin requires the following fields:
+- **Plugin ID**: A unique identifier for the plugin. 
+- **Name**: Display name.
+- **Description**: Brief explanation of the plugin's function.
+- **Format**: Module format, either `ESM` or `CJS`.
+- **Source**: The plugin's code or an external URL from which it will be downloaded.
+- **Dependencies**: List of NPM dependencies required by the plugin.
+- **Configuration**: JSON configuration object.
+
+For more details on building and configuring plugins, refer to the [getting started](/docs/plugins/getting-started) guide. 
+
+![Add Plugin Page](/img/dashboard/plugins-add-panel.png)

@@ -1,0 +1,66 @@
+---
+sidebar_position: 2
+---
+
+# The Plugin Object
+
+Plugins must export a `plugin` object with the methods listed below as follows:
+```js
+const plugin = {
+  async load(config) {},
+  unload() {},
+  isConfigured() {
+    return true;
+  },
+  newLog(log) {},
+  newTrace(trace) {},
+  newMetric(metric) {}
+};
+
+export default {plugin};
+```
+
+## `load(config)`
+
+This asynchronous method is called when the plugin is loaded. Here, you can perform any necessary setup or configuration. Dependencies are loaded before this method is called. The `config` parameter is the configuration object passed to the plugin. For more information, refer to [Plugin Configuration](plugin-configuration.mdx).
+
+## `unload()`
+
+This method is called when the plugin is unloaded. Here, you can perform any necessary cleanup.
+
+## `isConfigured()`
+
+This method is called to check if the plugin is configured. It should return `true` if the plugin is configured, and `false` otherwise.
+
+It will be called after `load` is completed to verify if the plugin has been configured correctly. **If it returns false, an error will be thrown.**
+
+## `newLog(log)`
+
+This method is called after a log is exported by OpenTelemetry, formatted to the following structure from a [`ReadableLogRecord`](https://open-telemetry.github.io/opentelemetry-js/interfaces/_opentelemetry_sdk-logs.ReadableLogRecord.html):
+```js
+{
+    resource: {
+        attributes: logRecord.resource.attributes,
+    },
+    instrumentationScope: logRecord.instrumentationScope,
+    timestamp: hrTimeToMicroseconds(logRecord.hrTime) ?? Date.now(),
+    observedTimestamp: hrTimeToMicroseconds(logRecord.hrTimeObserved) ?? Date.now(),
+    traceId: logRecord.spanContext?.traceId,
+    spanId: logRecord.spanContext?.spanId,
+    traceFlags: logRecord.spanContext?.traceFlags,
+    severityText: logRecord.severityText,
+    severityNumber: logRecord.severityNumber,
+    body: logRecord.body,
+    attributes: logRecord.attributes,
+}
+```
+
+## `newTrace(trace)`
+
+This method is called after a trace is exported by OpenTelemetry, with an extended  [`ReadableSpan`](https://open-telemetry.github.io/opentelemetry-js/interfaces/_opentelemetry_sdk-node.node.ReadableSpan.html) object as an argument.
+
+The class is extended with a `timestamp` top-level property defining the start time of the trace in milliseconds, which can be used for easier sorting/filtering, since the `startTime` provided by `ReadableSpan` is a tuple of `[seconds, nanoseconds]`.
+
+## `newMetric(metric)`
+
+This method is called after a metric is exported by OpenTelemetry, with an unprocessed [`ScopeMetrics`](https://open-telemetry.github.io/opentelemetry-js/interfaces/_opentelemetry_sdk-metrics.ScopeMetrics.html) object as an argument.

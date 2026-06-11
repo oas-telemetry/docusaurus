@@ -8,9 +8,13 @@ Max ages of Access and Refresh Tokens may also be configured using `auth.accessT
 
 Authentication may also be configured using **environment variables**.
 
-Authentication is automatically handled in the dashboard. **For API access, refer to the [API documentation](/docs/api/auth).**
+Authentication is automatically handled in the dashboard. **For API access, refer to the [API documentation](/api/auth).**
 
-### UserConfig Example
+## Examples
+
+Below are examples of how to configure authentication using both UserConfig and environment variables.
+
+### UserConfig
 ```ts
 const userConfig = {
   auth: {
@@ -25,7 +29,7 @@ const userConfig = {
 app.use(oasTelemetry(userConfig))
 ```
 
-### Environment Variables Example
+### Environment Variables
 ```properties
 OASTLM_CONFIG_AUTH_ENABLED=true
 OASTLM_CONFIG_AUTH_PASSWORD=my-secret-password

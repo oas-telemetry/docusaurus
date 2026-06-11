@@ -1,0 +1,64 @@
+---
+sidebar_position: 3
+---
+
+# Plugin Configuration
+
+Plugins accept a configuration JSON object to customize their behavior without modifying its source code. This may be used, for example, to configure a Telegram token, an endpoint to call when certain conditions are met, thresholds for certain actions, or any other custom behavior.
+
+## Example Configuration
+
+Below is an example configuration JSON object.
+
+```json
+{
+  "endpoint": "https://your.api.com/webhook",
+  "latencyThresholds": {
+    "warning": 250,
+    "critical": 1000
+  }
+}
+```
+
+## Accessing Configuration
+
+Configuration values are passed to the plugin via the `config` parameter of the `load` method. You may store these values in the plugin's state or use them directly in the `load` method. Below is an example.
+
+```js
+let loaded = false;
+let endpoint = null;
+let latencyThresholds = null;
+
+const plugin = {
+  async load(config) {
+    endpoint = config.endpoint;
+    latencyThresholds = config.latencyThresholds;
+    if(endpoint && latencyThresholds) {
+      loaded = true;
+    } else {
+      console.error('Endpoint and latency thresholds are required');
+    }
+  },
+  unload() {},
+  isConfigured() {
+    return loaded;
+  },
+  newLog(log) {},
+  newTrace(trace) {
+    // You can use the configuration in any of the functions
+    const criticalThreshold = latencyThresholds.critical;
+    const warningThreshold = latencyThresholds.warning;
+
+    const durationMillis = trace.duration[0];
+    // Your custom logic
+    if(durationMillis > criticalThreshold) {
+      // Do something when latency exceeds critical threshold
+    } else if(durationMillis > warningThreshold) {
+      // Do something when latency exceeds warning threshold
+    }
+  },
+  newMetric(metric) {}
+};
+
+export default {plugin};
+```

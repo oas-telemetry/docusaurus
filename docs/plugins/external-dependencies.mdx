@@ -1,0 +1,44 @@
+---
+sidebar_position: 4
+sidebar_label: External Dependencies
+---
+
+# Using Custom Dependencies in Plugins
+
+OAS Telemetry supports using custom dependencies in plugins by using a dynamic installer that downloads and install dependencies on demand from the NPM repository. To use custom dependencies, you will need to declare them in your plugin configuration and import them in your plugin's source code.
+
+## Dynamic Installer
+
+When adding a plugin, you will need to use the Dynamic Installer (Dependencies) configuration to specify flags for dependency installation. There are global options (`globalOptions`), and each dependency can have its own `options`. You may use `override` to ignore the default options for a specific dependency. Enable `verbose` to see detailed logs and `ignoreErrors` to continue installing even if one package fails to install.
+
+### Minimal Example
+
+Below is a minimal example of the Dynamic Installer configuration.
+
+```json
+{
+  "dependencies": [
+    {
+      "name": "lodash@latest"
+    }
+  ]
+}
+```
+
+### Detailed Example
+
+Below is an example of the Dynamic Installer configuration using all available options.
+
+```json
+{
+  "globalOptions": ["--no-save"],
+  "verbose": true,
+  "ignoreErrors": false,
+  "dependencies": [
+    { "name": "eslint@8.0.0", "options": ["--save-dev"] },
+    { "name": "lodash@latest", "options": ["-E"] },
+    { "name": "axios@latest", "options": ["--save-exact"], "override": true },
+    { "name": "typescript", "options": ["--save-optional"] }
+  ]
+}
+```

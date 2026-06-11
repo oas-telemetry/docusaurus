@@ -1,0 +1,126 @@
+---
+sidebar_position: 3
+---
+
+# Logs
+
+Operations for managing telemetry logs.
+
+## In-Memory Exporter
+
+The following endpoints apply only to the [in-memory exporter](/docs/exporters/in-memory-exporter).
+
+### GET /logs/exporters/in-memory-exporter/data
+
+Returns collected logs from the [in-memory exporter](/docs/exporters/in-memory-exporter).
+
+Example response:
+```json
+{
+  "items": []
+}
+```
+
+### POST /logs/exporters/in-memory-exporter/data
+
+Inserts logs into the [in-memory exporter](/docs/exporters/in-memory-exporter). If the query parameter `reset=true` is provided, the in-memory database is reset before inserting.
+
+Body:
+```json
+{
+  "logs": [
+    {
+      "body": "Hello World!"
+    }
+  ]
+}
+```
+
+Returns:
+```json
+{
+  "message": "Inserted 6 logs.",
+  "InsertedLogsCount": 6
+}
+```
+
+### DELETE /logs/exporters/in-memory-exporter/data
+
+Resets logs in the [in-memory exporter](/docs/exporters/in-memory-exporter).
+
+Returns: `Logs reset`
+
+### POST /logs/exporters/in-memory-exporter/data/find
+
+Finds logs from the [in-memory exporter](/docs/exporters/in-memory-exporter) database using criteria like `textSearch`, Mongo-like `query` object, `sort`, and `limit`.
+
+Body:
+```json
+{
+  "textSearch": "World!",
+  "query": {},
+  "sort": {
+    "timestamp": -1
+  },
+  "limit": 50
+}
+```
+
+Returns:
+```json
+{
+  "items": []
+}
+```
+
+### POST /logs/exporters/in-memory-exporter/start
+
+Starts logs collection. Only applies to the [in-memory exporter](/docs/exporters/in-memory-exporter).
+
+Returns: `Logs started`
+
+### POST /logs/exporters/in-memory-exporter/stop
+
+Stops logs collection. Only applies to the [in-memory exporter](/docs/exporters/in-memory-exporter).
+
+Returns: `Logs stopped`
+
+### GET /logs/exporters/in-memory-exporter/status
+
+Returns whether logs collection is active for the [in-memory exporter](/docs/exporters/in-memory-exporter).
+
+Example response: `{ "active": true }`
+
+### POST /logs/exporters/in-memory-exporter/reset
+
+Resets logs in [in-memory exporter](/docs/exporters/in-memory-exporter)'s database.
+
+Returns: `Logs reset`
+
+### GET /logs/exporters/in-memory-exporter/retention-time
+
+Returns the retention time in seconds for logs. Applies to the [in-memory exporter](/docs/exporters/in-memory-exporter).
+
+Example response: `{ "retentionTimeInSeconds": 3600 }`
+
+### POST /logs/exporters/in-memory-exporter/retention-time
+
+Sets retention time in seconds for logs. Only applies to the [in-memory exporter](/docs/exporters/in-memory-exporter).
+
+Body: `{ "retentionTimeInSeconds": 3600 }`
+
+Returns: `{ "message": "Retention time set to 3600 seconds." }`
+
+### GET /logs/exporters/in-memory-exporter/export
+
+Exports all collected logs from the [in-memory exporter](/docs/exporters/in-memory-exporter) in JSON format.
+
+Returns: A string containing logs in JSON format.
+
+### POST /logs/exporters/in-memory-exporter/import
+
+Imports logs from JSON format to the [in-memory exporter](/docs/exporters/in-memory-exporter).
+
+Body: A string containing logs in JSON format.
+
+Returns: `{ "message": "Logs imported successfully" }`

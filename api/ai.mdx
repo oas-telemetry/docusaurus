@@ -1,0 +1,93 @@
+---
+sidebar_position: 10
+---
+
+# AI Chat
+
+Operations for the AI Assistant / Chat.
+
+### GET /ai/chat/health
+
+Returns the health status of the AI service.
+
+Returns: `AI service is healthy`
+
+### GET /ai/chat
+
+Lists all AI conversations.
+
+Example response:
+```json
+[
+  {
+    "id": "conv-1",
+    "name": "Conversation 1"
+  }
+]
+```
+
+### POST /ai/chat
+
+Creates a new AI conversation.
+
+Example response:
+```json
+{
+  "id": "conv-123",
+  "name": "New Conversation"
+}
+```
+
+### GET /ai/chat/\{conversationId\}
+
+Returns the message history of the specified conversation.
+
+Example response:
+```json
+{
+  "id": "conv-123",
+  "messages": [
+    {
+      "role": "user",
+      "content": "Hello"
+    },
+    {
+      "role": "assistant",
+      "content": "Hi, how can I help?"
+    }
+  ]
+}
+```
+
+### DELETE /ai/chat/\{conversationId\}
+
+Deletes the specified conversation.
+
+Returns: `204 No Content` (on success) or `404 Not Found` with an error message if the conversation does not exist.
+
+### POST /ai/chat/\{conversationId\}/message
+
+Sends a message to the specified conversation and returns the model's response.
+
+Body:
+```json
+{
+  "content": "Hello, summarize my last request."
+}
+```
+
+Example response:
+```json
+{
+  "messages": [
+    {
+      "role": "user",
+      "content": "Hello"
+    },
+    {
+      "role": "assistant",
+      "content": "Here is a summary..."
+    }
+  ]
+}
+```

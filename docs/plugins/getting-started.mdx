@@ -1,8 +1,13 @@
-# Getting Started
+---
+sidebar_position: 1
+sidebar_label: Getting Started
+---
+
+# Getting Started with Plugins
 
 OAS Telemetry supports a range of plugins to extend its functionality, allowing developers to tailor telemetry data collection, alerting, and reporting to meet specific requirements. Plugins enable additional features, such as integration with alerting systems, custom data exporters, and data visualization tools.
 
-### ESM/CJS Compatibility
+## ESM/CJS Compatibility
 
 OAS Telemetry plugins are flexible and support both ES Modules (ESM) and CommonJS (CJS) formats, regardless of whether your application is using ESM or CJS. This compatibility ensures that plugins work seamlessly in all configurations:
 
@@ -10,3 +15,79 @@ OAS Telemetry plugins are flexible and support both ES Modules (ESM) and CommonJ
 - CJS applications can use plugins in either CJS or ESM format.
 
 This flexibility makes it easy to incorporate a wide variety of plugins in your preferred module system.
+
+## Importing Plugins
+
+Plugins may be added in three different ways:
+
+- Through the `oasTelemetry(userConfig)` constructor, as explained in the [configuration guide](/docs/configuration).
+- Through the API, as explained in the [API reference](/api/plugins).
+- Through the web dashboard, as explained in the [dashboard documentation](/dashboard/plugins).
+
+## Quick Start
+
+Below is a basic example of a plugin written in ESM format.
+
+This plugin demonstrates all available features: it reads configuration, imports a dependency (lodash) to capitalize the first letter of a message, and logs when it receives traces, metrics, or logs. You can extend it to perform any custom logic, such as sending a message to Slack or Telegram when a log matches a specific regex.
+
+### Source Code
+```js
+import _ from "lodash";
+
+let text = "hello world";
+let capital = _.capitalize(text);
+//
+let loaded = false;
+
+const plugin = {
+  async load(config) {
+    //
+    await new Promise((resolve) => setTimeout(resolve, 1000));
+    loaded = true;
+    //
+  },
+  unload() {
+    //
+  },
+  isConfigured() {
+    return loaded;
+  },
+  newLog(log) {
+    // Do not worry this logs will not be captured by the telemetry system
+    //
+  },
+  newTrace(trace) {
+    //
+  },
+  newMetric(metric) {
+    //
+  }
+};
+
+export default {plugin};
+```
+
+### Dependencies (Dynamic Installer)
+```ts
+{
+  "globalOptions": [
+    "--no-save"
+  ],
+  "verbose": false,
+  "ignoreErrors": false,
+  "dependencies": [
+    {
+      "name": "lodash@latest"
+    }
+  ]
+}
+```
+
+### Plugin Configuration
+```json
+{
+  "setting1": "value1",
+  "setting2": "value2",
+  "setting3": "value3"
+}
+```
